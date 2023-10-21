@@ -31,6 +31,21 @@ async function run() {
 
     const carCollection = client.db('carDB').collection('car');
 
+
+    app.get('/product', async(req,res) => {
+      const cursor = carCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
+
+    app.get('/product/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id)}
+      const result = await carCollection.findOne(query);
+      res.send(result);
+    })
+
+
     app.post('/product', async(req,res)=>{
       const newProduct = req.body;
       console.log(newProduct);
